@@ -43,5 +43,6 @@ while principal > 0:
        total_paid = total_paid + payment
 
    extra_months = extra_months + 1
-
-print('Total paid', total_paid)
+   print(extra_months, round(total_paid, 2), round(principal, 2))
+print('Total paid', round(total_paid, 2))
+print('Months', extra_months)
