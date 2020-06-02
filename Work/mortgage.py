@@ -43,6 +43,8 @@ while principal > 0:
        total_paid = total_paid + payment
 
    extra_months = extra_months + 1
-   print(extra_months, round(total_paid, 2), round(principal, 2))
+   # Exercise 1.10: Making a table
+   # Exercise 1.17: f-strings
+   print(f'{extra_months} {total_paid:0.2f} {principal:0.2f}')
 print('Total paid', round(total_paid, 2))
 print('Months', extra_months)
