@@ -1,6 +1,8 @@
 # pcost.py
 #
 # Exercise 1.27
+import sys
+
 def protfolio_cost(filename):
     total = 0
     with open(filename, 'rt') as f:
@@ -14,9 +16,25 @@ def protfolio_cost(filename):
             except ValueError:
                 print('ValueError')
         return total
+# Exercise 1.33: Reading from the command line
+if len(sys.argv) ==2:
+    filename = sys.argv[1]
+else:
+    filename = 'Data/portfolio.csv'
 
-cost = protfolio_cost('Data/portfolio.csv')
+cost = protfolio_cost(filename)
 print('Total cost', cost)
 
-cost1 = protfolio_cost('Data/missing.csv')
-print('Total cost', cost1)
+# Exercise 1.32: Using a library function
+from csv import reader
+
+total = 0
+with open('Data/portfolio.csv', 'rt') as f:
+    rows = reader(f)
+    header = next(rows)
+
+    for row in rows:
+        shares = int(row[1])
+        price = float(row[2])
+        total += shares * price
+    print(total)
