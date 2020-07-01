@@ -34,3 +34,21 @@ def read_portfolio(filename):
             portfolio.append(holding)
 
         return portfolio
+
+def read_prices(filename):
+    with open(filename) as file:
+        prices = {}
+
+        rows = csv.reader(file)
+        for row in rows:
+            #try:
+            #   prices[str(row[0])] = row[1]
+            #except:
+            #    print('Error')
+
+            if not row:
+                print('The item is empty')
+            else:
+                prices[str(row[0])] = float(row[1])
+
+        return prices
