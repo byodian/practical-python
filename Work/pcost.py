@@ -2,27 +2,30 @@
 #
 # Exercise 1.27
 import sys
+import csv
 
-def protfolio_cost(filename):
+def portfolio_cost(filename):
     total = 0
     with open(filename, 'rt') as f:
-        header = next(f)
-        for line in f:
+        rows = csv.reader(f)
+
+        header = next(rows)
+        for i, row in enumerate(rows, start = 1):
             try:
-                line_list = line.split(',')
-                shares = int(line_list[1])
-                price = float(line_list[2])
+                shares = int(row[1])
+                price = float(row[2])
                 total += shares * price
             except ValueError:
-                print('ValueError')
+                print('Row {}: Couldn\'t convert: {}'.format(i, row))
         return total
+
 # Exercise 1.33: Reading from the command line
 if len(sys.argv) ==2:
     filename = sys.argv[1]
 else:
     filename = 'Data/portfolio.csv'
 
-cost = protfolio_cost(filename)
+cost = portfolio_cost(filename)
 print('Total cost', cost)
 
 # Exercise 1.32: Using a library function
