@@ -1,25 +1,23 @@
 # report.py
 #
 # Exercise 2.4: A list of tuples
-#import csv
-#def read_portfolio(filename):
-#    with open(filename, 'rt') as file:
-#        portfolio = []
-#
-#        rows = csv.reader(file)
-#        headers = next(rows)
-#
-#        for row in rows:
-#           holding = (row[0], int(row[1]), float(row[2]))
-#           portfolio.append(holding)
-#
-#        return portfolio
+import csv
+def read_portfolio_a(filename):
+    with open(filename, 'rt') as file:
+        portfolio = []
+
+        rows = csv.reader(file)
+        headers = next(rows)
+
+        for row in rows:
+           holding = (row[0], int(row[1]), float(row[2]))
+           portfolio.append(holding)
+
+        return portfolio
 
 
 # Exercise 2.5: List of Dictionaries
-import  csv
-
-def read_portfolio(filename):
+def read_portfolio_b(filename):
     with open(filename, 'rt') as file:
         portfolio = []
 
@@ -68,7 +66,7 @@ def make_report(portfolio, prices):
     return report
 
 
-portfolio = read_portfolio('Data/portfolio.csv')
+portfolio = read_portfolio_b('Data/portfolio.csv')
 prices = read_prices('Data/prices.csv')
 report = make_report(portfolio, prices)
 
