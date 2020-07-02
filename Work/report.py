@@ -47,8 +47,37 @@ def read_prices(filename):
             #    print('Error')
 
             if not row:
-                print('The item is empty')
+               continue 
             else:
                 prices[str(row[0])] = float(row[1])
 
         return prices
+
+# Exercison 2.7: Compute the currrent value of the porofolip along with the gain/loss
+def make_report(portfolio, prices):
+    report = []
+    for row in portfolio:
+        name = row['name']
+        shares = row['shares']
+        initial_price = row['price']
+        current_price = prices[name]
+        chage = current_price - initial_price
+        holding = (name, shares, current_price, chage)
+        report.append(holding)
+
+    return report
+
+
+portfolio = read_portfolio('Data/portfolio.csv')
+prices = read_prices('Data/prices.csv')
+report = make_report(portfolio, prices)
+
+headers = ('name', 'shares', 'price', 'change')
+print('%10s %10s %10s %10s' % headers)
+
+s = '---------- '
+gap = s * 4
+print(gap.strip())
+
+for name, shares, price, change in report:
+    print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
