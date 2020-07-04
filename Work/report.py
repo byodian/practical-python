@@ -3,24 +3,37 @@
 # Exercise 2.4: A list of tuples
 import csv
 def read_portfolio_a(filename):
-    with open(filename, 'rt') as file:
-        portfolio = []
+    '''
+    Read a stock portfolio into a list of dictionaries with keys
+    name, shares, and prices.
+    '''
+    portfolio = []
 
+    with open(filename, 'rt') as file:
         rows = csv.reader(file)
         headers = next(rows)
 
         for row in rows:
-           holding = (row[0], int(row[1]), float(row[2]))
-           portfolio.append(holding)
+            record = dict(zip(headers, row))
+            stock = {
+                'name': record['name'],
+                'shares': int(record['shares']),
+                'price': float(record['price'])
+            }
+            portfolio.append(stock)
 
         return portfolio
 
 
 # Exercise 2.5: List of Dictionaries
 def read_portfolio_b(filename):
-    with open(filename, 'rt') as file:
-        portfolio = []
+    '''
+    Read a stock portfolio into a list of dictionaries with keys
+    name, shares, price
+    '''
+    portfolio = []
 
+    with open(filename, 'rt') as file:
         rows = csv.reader(file)
         headers = next(rows)
         for row in rows:
@@ -34,9 +47,12 @@ def read_portfolio_b(filename):
         return portfolio
 
 def read_prices(filename):
+    prices = {}
+    '''
+    Read a stock current price into a list of dictionaries with keys
+    name, price
+    '''
     with open(filename) as file:
-        prices = {}
-
         rows = csv.reader(file)
         for row in rows:
             #try:
@@ -65,17 +81,12 @@ def make_report(portfolio, prices):
 
     return report
 
+# Exercise 3.1: Structuring a program as a collection of functions
+# A function that prints out the report
+def print_report(report):
+    headers = ('Name', 'Shares', 'Price', 'Change')
+    print('%10s %10s %10s %10s' % headers)
+    print(('-' * 10 + ' ') * len(headers))
 
-portfolio = read_portfolio_b('Data/portfolio.csv')
-prices = read_prices('Data/prices.csv')
-report = make_report(portfolio, prices)
-
-headers = ('name', 'shares', 'price', 'change')
-print('%10s %10s %10s %10s' % headers)
-
-s = '---------- '
-gap = s * 4
-print(gap.strip())
-
-for name, shares, price, change in report:
-    print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+    for name, shares, price, change in report:
+        print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
