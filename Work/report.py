@@ -90,3 +90,10 @@ def print_report(report):
 
     for name, shares, price, change in report:
         print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+
+# Exercise 3.2: Creating a top-level function for program execution
+def portfolio_report(portfoliofile, pricesfile):
+    portfolio = read_portfolio_a(portfoliofile)
+    prices = read_prices(pricesfile)
+    report = make_report(portfolio, prices)
+    print_report(report)
