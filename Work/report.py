@@ -62,8 +62,7 @@ def read_prices(filename):
 
             if not row:
                continue 
-            else:
-                prices[str(row[0])] = float(row[1])
+            prices[str(row[0])] = float(row[1])
 
         return prices
 
