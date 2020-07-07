@@ -96,3 +96,10 @@ def portfolio_report(portfoliofile, pricesfile):
     prices = read_prices(pricesfile)
     report = make_report(portfolio, prices)
     print_report(report)
+
+def main(argv):
+    portfolio_report(argv[1], argv[2]) 
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
