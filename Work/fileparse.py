@@ -2,12 +2,13 @@
 #
 # Exercise 3.3
 import csv
-def parse_csv(filename, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
+def parse_csv(lines, select=None, types=None, has_headers=True, delimiter=',', silence_errors=False):
     '''
     Parse a CSV file into a list of recorsa
     '''
-    with open(filename) as file:
-        rows = csv.reader(file, delimiter=delimiter)
+    if not isinstance(lines, str):
+
+        rows = csv.reader(lines)
 
         if has_headers:
             # Read the file headers
