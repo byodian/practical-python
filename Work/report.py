@@ -2,81 +2,32 @@
 #
 # Exercise 2.4: A list of tuples
 import csv
-def read_portfolio_a(filename):
+import fileparse
+
+def read_portfolio(filename):
     '''
     Read a stock portfolio into a list of dictionaries with keys
     name, shares, and prices.
     '''
-    portfolio = []
-
     with open(filename, 'rt') as file:
-        rows = csv.reader(file)
-        headers = next(rows)
-
-        for row in rows:
-            record = dict(zip(headers, row))
-            stock = {
-                'name': record['name'],
-                'shares': int(record['shares']),
-                'price': float(record['price'])
-            }
-            portfolio.append(stock)
-
-        return portfolio
-
-
-# Exercise 2.5: List of Dictionaries
-def read_portfolio_b(filename):
-    '''
-    Read a stock portfolio into a list of dictionaries with keys
-    name, shares, price
-    '''
-    portfolio = []
-
-    with open(filename, 'rt') as file:
-        rows = csv.reader(file)
-        headers = next(rows)
-        for row in rows:
-            holding = {
-                'name': row[0],
-                'shares': int(row[1]),
-                'price': float(row[2])
-            }
-            portfolio.append(holding)
-
-        return portfolio
+        return fileparse.parse_csv(file, select=['name', 'shares', 'price'], types=[str, int, float])
 
 def read_prices(filename):
-    prices = {}
     '''
     Read a stock current price into a list of dictionaries with keys
     name, price
     '''
-    with open(filename) as file:
-        rows = csv.reader(file)
-        for row in rows:
-            #try:
-            #   prices[str(row[0])] = row[1]
-            #except:
-            #    print('Error')
-
-            if not row:
-               continue 
-            prices[str(row[0])] = float(row[1])
-
-        return prices
+    with open(filename, 'rt') as lines:
+        return dict(fileparse.parse_csv(lines, types=[str, float], has_headers=False))
 
 # Exercison 2.7: Compute the currrent value of the porofolip along with the gain/loss
 def make_report(portfolio, prices):
     report = []
     for row in portfolio:
-        name = row['name']
-        shares = row['shares']
-        initial_price = row['price']
-        current_price = prices[name]
-        chage = current_price - initial_price
-        holding = (name, shares, current_price, chage)
-        report.append(holding)
+        current_price = prices[row['name']]
+        change = current_price - row['price']
+        stocks = (row['name'], row['shares'], current_price, change)
+        report.append(stocks)
 
     return report
 
@@ -92,12 +43,14 @@ def print_report(report):
 
 # Exercise 3.2: Creating a top-level function for program execution
 def portfolio_report(portfoliofile, pricesfile):
-    portfolio = read_portfolio_a(portfoliofile)
+    portfolio = read_portfolio(portfoliofile)
     prices = read_prices(pricesfile)
     report = make_report(portfolio, prices)
     print_report(report)
 
 def main(argv):
+    if len(argv) != 3:
+        raise SystemExit('Usage: %s portfile pricefile' %argv[0])
     portfolio_report(argv[1], argv[2]) 
 
 if __name__ == '__main__':
