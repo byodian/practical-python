@@ -45,7 +45,7 @@ def print_report(reportdata, formatter):
         formatter.row(rowdata)
 
 # Exercise 3.2: Creating a top-level function for program execution
-def portfolio_report(portfoliofile, pricesfile):
+def portfolio_report(portfoliofile, pricesfile, fmt = 'txt'):
     # Read a data file
     portfolio = read_portfolio(portfoliofile)
     prices = read_prices(pricesfile)
@@ -54,7 +54,14 @@ def portfolio_report(portfoliofile, pricesfile):
     report = make_report(portfolio, prices)
 
     # Print it out
-    formatter = tableformat.HTMLTableFormatter()
+    if fmt == 'txt':
+        formatter = tableformat.TableFormatter()
+    elif fmt == 'html':
+        formatter = tableformat.HTMLTableFormatter()
+    elif fmt == 'csv':
+        formatter = tableformat.CSVTableFormatter()
+    else:
+        raise RuntimeError(f'Unknown format {fmt}')
     print_report(report, formatter)
 
 def main(argv):

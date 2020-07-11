@@ -24,7 +24,7 @@ class HTMLTableFormatter:
         for h in headers:
             thead += '<th>{}</th>'.format(str(h))
 
-        print('<tr>{}</tr>'.format(thead)
+        print('<tr>{}</tr>'.format(thead))
 
     def row(self, rowdata):
         td = ''
