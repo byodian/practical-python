@@ -3,6 +3,7 @@
 # Exercise 2.4: A list of tuples
 import csv
 import fileparse
+import tableformat
 
 def read_portfolio(filename):
     '''
@@ -33,20 +34,28 @@ def make_report(portfolio, prices):
 
 # Exercise 3.1: Structuring a program as a collection of functions
 # A function that prints out the report
-def print_report(report):
-    headers = ('Name', 'Shares', 'Price', 'Change')
-    print('%10s %10s %10s %10s' % headers)
-    print(('-' * 10 + ' ') * len(headers))
+def print_report(reportdata, formatter):
+    '''
+    Print a nicely formatted table from a list of (name, shares, price, change) tuples.
+    '''
+    formatter.headings(['Name', 'Shares', 'Price', 'Change'])
 
-    for name, shares, price, change in report:
-        print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+    for name, shares, price, change in reportdata:
+        rowdata = [name, str(shares), f'{price:0.2f}', f'{change:0.2f}']
+        formatter.row(rowdata)
 
 # Exercise 3.2: Creating a top-level function for program execution
 def portfolio_report(portfoliofile, pricesfile):
+    # Read a data file
     portfolio = read_portfolio(portfoliofile)
     prices = read_prices(pricesfile)
+
+    # Create a report data
     report = make_report(portfolio, prices)
-    print_report(report)
+
+    # Print it out
+    formatter = tableformat.HTMLTableFormatter()
+    print_report(report, formatter)
 
 def main(argv):
     if len(argv) != 3:
