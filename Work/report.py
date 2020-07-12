@@ -54,14 +54,7 @@ def portfolio_report(portfoliofile, pricesfile, fmt = 'txt'):
     report = make_report(portfolio, prices)
 
     # Print it out
-    if fmt == 'txt':
-        formatter = tableformat.TableFormatter()
-    elif fmt == 'html':
-        formatter = tableformat.HTMLTableFormatter()
-    elif fmt == 'csv':
-        formatter = tableformat.CSVTableFormatter()
-    else:
-        raise RuntimeError(f'Unknown format {fmt}')
+    formatter = tableformat.create_formatter(fmt)
     print_report(report, formatter)
 
 def main(argv):

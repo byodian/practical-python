@@ -31,3 +31,19 @@ class HTMLTableFormatter:
         for row in rowdata:
             td += '<td>{}</td>'.format(row)
         print('<tr>{}</tr>'.format(td))
+
+def create_formatter(fmt):
+    if fmt == 'txt':
+        return TableFormatter()
+    elif fmt == 'html':
+        return HTMLTableFormatter()
+    elif fmt == 'csv':
+        return CSVTableFormatter()
+    else:
+        raise RuntimeError(f'Unknown format {fmt}')
+
+def print_table(objects, colnames, formatter):
+    formatter.headings(colnames)
+    for obj in objects:
+        stock = [str(getattr(obj, colname)) for colname in colnames]
+        formatter.obj(stock)
