@@ -32,15 +32,18 @@ class HTMLTableFormatter:
             td += '<td>{}</td>'.format(row)
         print('<tr>{}</tr>'.format(td))
 
-def create_formatter(fmt):
-    if fmt == 'txt':
+class FormatError(Exception):
+    pass
+
+def create_formatter(name):
+    if name == 'txt':
         return TableFormatter()
-    elif fmt == 'html':
+    elif name == 'html':
         return HTMLTableFormatter()
-    elif fmt == 'csv':
+    elif name == 'csv':
         return CSVTableFormatter()
     else:
-        raise RuntimeError(f'Unknown format {fmt}')
+        raise FormatError(f'Unknown table format %s' % name)
 
 def print_table(objects, colnames, formatter):
     formatter.headings(colnames)
